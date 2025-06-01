@@ -3,7 +3,6 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-// Configure email transporter
 const createTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.warn("⚠️ Email credentials not configured")
