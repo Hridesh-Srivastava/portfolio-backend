@@ -22,7 +22,7 @@ router.get("/health", (req, res) => {
 
 // Test route
 router.get("/test", (req, res) => {
-  console.log("🧪 Contact routes test")
+  console.log("Contact routes test")
   res.status(200).json({
     success: true,
     message: "Contact routes test successful",

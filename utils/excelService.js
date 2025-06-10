@@ -3,7 +3,7 @@ import Contact from "../models/Contact.js"
 
 export const createExcelFile = async () => {
   try {
-    console.log("📊 Creating Excel file with contact submissions...")
+    console.log("Creating Excel file with contact submissions...")
 
     const workbook = new ExcelJS.Workbook()
 
@@ -55,7 +55,7 @@ export const createExcelFile = async () => {
 
     // Get all contacts from database, sorted by newest first
     const contacts = await Contact.find().sort({ createdAt: -1 })
-    console.log(`📋 Found ${contacts.length} contact submissions`)
+    console.log(`Found ${contacts.length} contact submissions`)
 
     // Add contact data rows
     contacts.forEach((contact, index) => {
@@ -212,13 +212,13 @@ export const createExcelFile = async () => {
       }
     })
 
-    console.log("✅ Excel file created successfully with contact submissions")
+    console.log("Excel file created successfully with contact submissions")
 
     // Generate buffer
     const buffer = await workbook.xlsx.writeBuffer()
     return buffer
   } catch (error) {
-    console.error("❌ Excel creation error:", error)
+    console.error("Excel creation error:", error)
     throw new Error(`Failed to create Excel file: ${error.message}`)
   }
 }
