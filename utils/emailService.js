@@ -5,7 +5,7 @@ dotenv.config()
 
 const createTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.warn("⚠️ Email credentials not configured")
+    console.warn("Email credentials not configured")
     return null
   }
 
