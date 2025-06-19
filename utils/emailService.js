@@ -299,9 +299,9 @@ const generateUserEmailHTML = (contactData) => {
           
           <div class="social-links">
             <p><strong>Connect with me:</strong></p>
-            <a href="https://github.com/Hridesh-Srivastava" target="_blank">GitHub &nearr;</a>
-            <a href="https://www.linkedin.com/in/hridayesh-srivastava-9575901bb/" target="_blank">LinkedIn &nearr;</a>
-            <a href="https://x.com/Hrideshhhh" target="_blank">X &nearr;</a>
+            <a href="https://github.com/Hridesh-Srivastava" target="_blank">GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/hridayesh-srivastava-9575901bb/" target="_blank">LinkedIn ↗</a>
+            <a href="https://x.com/Hrideshhhh" target="_blank">X ↗</a>
           </div>
           
           <p style="margin-top: 30px;">
