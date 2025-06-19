@@ -6,17 +6,17 @@ import { createExcelFile } from "../utils/excelService.js"
 export const createContact = async (req, res) => {
   try {
     console.log("\n" + "=".repeat(50))
-    console.log("📝 NEW CONTACT FORM SUBMISSION")
+    console.log("NEW CONTACT FORM SUBMISSION")
     console.log("=".repeat(50))
-    console.log("📋 Request body:", JSON.stringify(req.body, null, 2))
-    console.log("🌐 IP Address:", req.ip)
-    console.log("🖥️ User Agent:", req.get("User-Agent"))
+    console.log("Request body:", JSON.stringify(req.body, null, 2))
+    console.log("IP Address:", req.ip)
+    console.log("User Agent:", req.get("User-Agent"))
 
     const { name, email, phone, linkedinProfile, message } = req.body
 
     // Validation
     if (!name || !email || !message) {
-      console.log("❌ Validation failed: Missing required fields")
+      console.log("Validation failed: Missing required fields")
       return res.status(400).json({
         success: false,
         error: "Name, email, and message are required fields",
@@ -27,7 +27,7 @@ export const createContact = async (req, res) => {
     // Email validation
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
     if (!emailRegex.test(email)) {
-      console.log("❌ Validation failed: Invalid email format")
+      console.log("Validation failed: Invalid email format")
       return res.status(400).json({
         success: false,
         error: "Please provide a valid email address",
@@ -36,7 +36,7 @@ export const createContact = async (req, res) => {
 
     // Message length validation
     if (message.trim().length < 10) {
-      console.log("❌ Validation failed: Message too short")
+      console.log("Validation failed: Message too short")
       return res.status(400).json({
         success: false,
         error: "Message must be at least 10 characters long",
@@ -45,7 +45,7 @@ export const createContact = async (req, res) => {
 
     // Check if MongoDB is connected
     if (mongoose.connection.readyState !== 1) {
-      console.warn("⚠️ MongoDB not connected, proceeding without database save")
+      console.warn("MongoDB not connected, proceeding without database save")
 
       // Still try to send emails
       try {
@@ -65,7 +65,7 @@ export const createContact = async (req, res) => {
           emailSent: emailResult.success,
         })
       } catch (emailError) {
-        console.error("❌ Email error:", emailError)
+        console.error("Email error:", emailError)
         return res.status(200).json({
           success: true,
           message: "Message received! I'll get back to you soon. (Database and email temporarily unavailable)",
@@ -85,26 +85,26 @@ export const createContact = async (req, res) => {
       userAgent: req.get("User-Agent") || "unknown",
     }
 
-    console.log("💾 Saving contact to database...")
+    console.log("Saving contact to database...")
     const contact = new Contact(contactData)
     const savedContact = await contact.save()
-    console.log("✅ Contact saved successfully!")
-    console.log("🆔 Contact ID:", savedContact._id)
+    console.log("Contact saved successfully!")
+    console.log("Contact ID:", savedContact._id)
 
     // Try to create Excel file (non-blocking)
     let excelBuffer = null
     try {
-      console.log("📊 Creating Excel file with all contact submissions...")
+      console.log("Creating Excel file with all contact submissions...")
       excelBuffer = await createExcelFile()
-      console.log("✅ Excel file created successfully with contact database")
+      console.log("Excel file created successfully with contact database")
     } catch (excelError) {
-      console.warn("⚠️ Excel creation failed:", excelError.message)
+      console.warn("Excel creation failed:", excelError.message)
     }
 
     // Try to send emails (non-blocking)
     let emailSent = false
     try {
-      console.log("📧 Sending emails...")
+      console.log("Sending emails...")
       const emailResult = await sendContactEmail(
         {
           name,
@@ -120,16 +120,16 @@ export const createContact = async (req, res) => {
 
       emailSent = emailResult.success
       if (emailSent) {
-        console.log("✅ Emails sent successfully with updated contact database")
+        console.log("Emails sent successfully with updated contact database")
       } else {
-        console.warn("⚠️ Email sending failed:", emailResult.error)
+        console.warn("Email sending failed:", emailResult.error)
       }
     } catch (emailError) {
-      console.warn("⚠️ Email error:", emailError.message)
+      console.warn("Email error:", emailError.message)
     }
 
     console.log("=".repeat(50))
-    console.log("✅ CONTACT SUBMISSION COMPLETED")
+    console.log("CONTACT SUBMISSION COMPLETED")
     console.log("=".repeat(50) + "\n")
 
     // Return success response
@@ -143,7 +143,7 @@ export const createContact = async (req, res) => {
       },
     })
   } catch (error) {
-    console.error("\n❌ CONTACT SUBMISSION ERROR:")
+    console.error("\n CONTACT SUBMISSION ERROR:")
     console.error("Error:", error.message)
     console.error("Stack:", error.stack)
 

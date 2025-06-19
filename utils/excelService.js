@@ -7,18 +7,15 @@ export const createExcelFile = async () => {
 
     const workbook = new ExcelJS.Workbook()
 
-    // Set workbook properties
     workbook.creator = "Hridayesh Srivastava Portfolio"
     workbook.lastModifiedBy = "Portfolio Backend"
     workbook.created = new Date()
     workbook.modified = new Date()
 
-    // Create Contact Submissions worksheet
     const worksheet = workbook.addWorksheet("Contact Submissions", {
       properties: { tabColor: { argb: "FF667eea" } },
     })
 
-    // Define columns with proper formatting
     worksheet.columns = [
       { header: "Sr. No.", key: "srNo", width: 8 },
       { header: "Submission Date", key: "submissionDate", width: 20 },
@@ -32,7 +29,6 @@ export const createExcelFile = async () => {
       { header: "Contact ID", key: "contactId", width: 25 },
     ]
 
-    // Style the header row
     const headerRow = worksheet.getRow(1)
     headerRow.height = 25
     headerRow.font = { bold: true, color: { argb: "FFFFFFFF" } }
@@ -43,7 +39,6 @@ export const createExcelFile = async () => {
     }
     headerRow.alignment = { vertical: "middle", horizontal: "center" }
 
-    // Add borders to header
     headerRow.eachCell((cell) => {
       cell.border = {
         top: { style: "thin", color: { argb: "FF000000" } },
@@ -53,7 +48,6 @@ export const createExcelFile = async () => {
       }
     })
 
-    // Get all contacts from database, sorted by newest first
     const contacts = await Contact.find().sort({ createdAt: -1 })
     console.log(`Found ${contacts.length} contact submissions`)
 
@@ -82,11 +76,9 @@ export const createExcelFile = async () => {
 
       const row = worksheet.addRow(rowData)
 
-      // Style data rows
       row.height = 20
       row.alignment = { vertical: "top", wrapText: true }
 
-      // Alternate row colors
       if (index % 2 === 0) {
         row.fill = {
           type: "pattern",
@@ -95,7 +87,6 @@ export const createExcelFile = async () => {
         }
       }
 
-      // Add borders to data cells
       row.eachCell((cell) => {
         cell.border = {
           top: { style: "thin", color: { argb: "FFE0E0E0" } },
@@ -105,7 +96,6 @@ export const createExcelFile = async () => {
         }
       })
 
-      // Color code status
       const statusCell = row.getCell("status")
       switch (contact.status.toLowerCase()) {
         case "new":
@@ -208,7 +198,7 @@ export const createExcelFile = async () => {
     // Auto-fit columns
     worksheet.columns.forEach((column) => {
       if (column.key === "message") {
-        column.width = 60 // Keep message column wide
+        column.width = 60 
       }
     })
 

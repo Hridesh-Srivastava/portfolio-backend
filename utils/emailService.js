@@ -120,40 +120,40 @@ const generateAdminEmailHTML = (contactData) => {
     <body>
       <div class="container">
         <div class="header">
-          <h1>🚀 New Contact Form Submission</h1>
+          <h1>New Contact Form Submission</h1>
           <p>Someone is interested in working with you!</p>
         </div>
         
         <div class="content">
           <div class="field">
-            <div class="label">👤 Name</div>
+            <div class="label">Name</div>
             <div class="value">${name}</div>
           </div>
           
           <div class="field">
-            <div class="label">📧 Email</div>
+            <div class="label">Email</div>
             <div class="value"><a href="mailto:${email}" style="color: #667eea; text-decoration: none;">${email}</a></div>
           </div>
           
           <div class="field">
-            <div class="label">📱 Phone</div>
+            <div class="label">Phone</div>
             <div class="value">${phone || "Not provided"}</div>
           </div>
           
           <div class="field">
-            <div class="label">🔗 LinkedIn/Naukri Profile</div>
+            <div class="label">LinkedIn/Naukri Profile</div>
             <div class="value">
               ${linkedinProfile ? `<a href="${linkedinProfile}" target="_blank" style="color: #667eea; text-decoration: none;">${linkedinProfile}</a>` : "Not provided"}
             </div>
           </div>
           
           <div class="field">
-            <div class="label">💬 Message</div>
+            <div class="label">Message</div>
             <div class="message-box">${message}</div>
           </div>
           
           <div class="field">
-            <div class="label">⏰ Submitted On</div>
+            <div class="label"> Submitted On</div>
             <div class="value">${new Date(submittedAt).toLocaleString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -170,7 +170,7 @@ const generateAdminEmailHTML = (contactData) => {
             contactData.excelAttached
               ? `
           <div class="attachment-note">
-            📊 <strong>Contact Database Attached:</strong> An updated Excel file with all contact submissions (including this new one) is attached to this email for your records.
+             <strong>Contact Database Attached:</strong> An updated Excel file with all contact submissions (including this new one) is attached to this email for your records.
           </div>
           `
               : ""
@@ -178,8 +178,7 @@ const generateAdminEmailHTML = (contactData) => {
         </div>
         
         <div class="footer">
-          <p>This is an automated message from your portfolio website.</p>
-          <p>Portfolio Backend API • Powered by Node.js & Express</p>
+          <p>This is an automated message from portfolio website.</p>
         </div>
       </div>
     </body>
@@ -187,7 +186,7 @@ const generateAdminEmailHTML = (contactData) => {
   `
 }
 
-// Generate HTML email template for user confirmation
+
 const generateUserEmailHTML = (contactData) => {
   const { name, message } = contactData
 
@@ -275,7 +274,7 @@ const generateUserEmailHTML = (contactData) => {
     <body>
       <div class="container">
         <div class="header">
-          <h1>🙏 Thank You for Reaching Out!</h1>
+          <h1>Thank You for Reaching Out!</h1>
           <p>I appreciate you taking the time to contact me</p>
         </div>
         
@@ -300,9 +299,9 @@ const generateUserEmailHTML = (contactData) => {
           
           <div class="social-links">
             <p><strong>Connect with me:</strong></p>
-            <a href="https://github.com/Hridesh-Srivastava" target="_blank">🔗 GitHub</a>
-            <a href="https://linkedin.com/in/HridayeshSrivastava" target="_blank">💼 LinkedIn</a>
-            <a href="https://vercel.com/hridesh-srivastava" target="_blank">🚀 Vercel</a>
+            <a href="https://github.com/Hridesh-Srivastava" target="_blank">GitHub &nearr;</a>
+            <a href="https://www.linkedin.com/in/hridayesh-srivastava-9575901bb/" target="_blank">LinkedIn &nearr;</a>
+            <a href="https://x.com/Hrideshhhh" target="_blank">X &nearr;</a>
           </div>
           
           <p style="margin-top: 30px;">
@@ -314,7 +313,7 @@ const generateUserEmailHTML = (contactData) => {
         
         <div class="footer">
           <p>This is an automated response. You can reply directly to this email.</p>
-          <p>© 2024 Hridayesh Srivastava • Portfolio Website</p>
+           <p>© ${new Date().getFullYear()} Hridayesh Srivastava • Portfolio Website</p>
         </div>
       </div>
     </body>
@@ -322,23 +321,20 @@ const generateUserEmailHTML = (contactData) => {
   `
 }
 
-// Send contact email with Excel attachment
 export const sendContactEmail = async (contactData, excelBuffer = null) => {
   try {
     const transporter = createTransporter()
 
     if (!transporter) {
-      console.warn("⚠️ Email transporter not configured")
+      console.warn("Email transporter not configured")
       return { success: false, error: "Email not configured" }
     }
 
-    // Verify transporter configuration
     await transporter.verify()
-    console.log("✅ Email transporter verified")
+    console.log("Email transporter verified")
 
     const { name, email } = contactData
 
-    // Email to admin (you) with Excel attachment
     const adminMailOptions = {
       from: {
         name: "Portfolio Contact Form",
@@ -361,7 +357,6 @@ export const sendContactEmail = async (contactData, excelBuffer = null) => {
       }),
     }
 
-    // Thank you email to user
     const userMailOptions = {
       from: {
         name: "Hridayesh Srivastava",
@@ -372,23 +367,21 @@ export const sendContactEmail = async (contactData, excelBuffer = null) => {
       html: generateUserEmailHTML(contactData),
     }
 
-    // Send both emails
-    console.log("📧 Sending admin email...")
+    console.log("Sending admin email...")
     const adminResult = await transporter.sendMail(adminMailOptions)
-    console.log("✅ Admin email sent:", adminResult.messageId)
+    console.log("Admin email sent:", adminResult.messageId)
 
-    console.log("📧 Sending user confirmation email...")
+    console.log("Sending user confirmation email...")
     const userResult = await transporter.sendMail(userMailOptions)
-    console.log("✅ User email sent:", userResult.messageId)
+    console.log("User email sent:", userResult.messageId)
 
     return { success: true }
   } catch (error) {
-    console.error("❌ Email sending error:", error)
+    console.error("Email sending error:", error)
     return { success: false, error: error.message }
   }
 }
 
-// Test email configuration
 export const testEmailConfig = async () => {
   try {
     const transporter = createTransporter()
@@ -396,10 +389,10 @@ export const testEmailConfig = async () => {
       return false
     }
     await transporter.verify()
-    console.log("✅ Email configuration is valid")
+    console.log("Email configuration is valid")
     return true
   } catch (error) {
-    console.error("❌ Email configuration error:", error)
+    console.error("Email configuration error:", error)
     return false
   }
 }

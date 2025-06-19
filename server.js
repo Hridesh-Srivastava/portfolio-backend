@@ -88,7 +88,6 @@ app.use((req, res, next) => {
   next()
 })
 
-// Database connection with retry logic
 const connectDB = async () => {
   try {
     console.log("Connecting to MongoDB...")
@@ -114,7 +113,6 @@ await connectDB()
 // Routes
 app.use("/api/contact", contactRoutes)
 
-// Health check endpoint - comprehensive
 app.get("/api/health", (req, res) => {
   console.log("Health check requested from:", req.ip)
 
@@ -186,7 +184,6 @@ app.use((error, req, res, next) => {
   })
 })
 
-// Graceful shutdown handlers
 const gracefulShutdown = async (signal) => {
   console.log(`\n ${signal} received, shutting down gracefully...`)
 
@@ -205,7 +202,6 @@ const gracefulShutdown = async (signal) => {
 process.on("SIGTERM", () => gracefulShutdown("SIGTERM"))
 process.on("SIGINT", () => gracefulShutdown("SIGINT"))
 
-// Start server with fixed port configuration
 const startServer = async () => {
   // Use port 8080 as requested, with fallback to 5000
   const PORT = Number.parseInt(process.env.PORT) || 8080

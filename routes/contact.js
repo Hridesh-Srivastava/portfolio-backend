@@ -8,7 +8,7 @@ router.post("/", createContact)
 
 // Health check for contact routes
 router.get("/health", (req, res) => {
-  console.log("🏥 Contact routes health check")
+  console.log("Contact routes health check")
   res.status(200).json({
     success: true,
     message: "Contact routes are working",
