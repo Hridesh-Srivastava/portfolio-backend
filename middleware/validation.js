@@ -36,7 +36,7 @@ export const contactValidation = [
     .trim()
     .isLength({ min: 10, max: 1000 })
     .withMessage('Message must be between 10 and 1000 characters')
-    .escape() // Sanitize HTML
+    .escape() 
 ];
 
 export const handleValidationErrors = (req, res, next) => {
