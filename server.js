@@ -33,7 +33,10 @@ const corsOptions = {
     // Allow your production domain
     if (
       origin.includes("hridayesh-srivastava.vercel.app") ||
-      origin.includes("portfolio-backend-plum-nine.vercel.app")
+      origin.includes("portfolio-backend-plum-nine.vercel.app") ||
+      origin.includes("hridayesh-srivastava.me") ||         
+      origin.includes("www.hridayesh-srivastava.me") ||     
+      origin.includes("api.hridayesh-srivastava.me")
     ) {
       return callback(null, true)
     }
